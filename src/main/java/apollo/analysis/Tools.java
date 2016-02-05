@@ -54,7 +54,7 @@ public class Tools {
     }
     /** this method is used to find out the mixed base in the primer sequence and save this infor into
      * hapmap data type into FRPrimersInfor*/
-    public static void findMixedBasePrimerSeqPos (ArrayList<FRPrimersInfor> primersInfor) {
+    public static void findMixedBasePrimerSeqPos (ArrayList<Primer> primersInfor) {
         for (int i = 0; i < primersInfor.size(); i++) {
             Map<Integer, String> mixBasePos_F = new HashMap<Integer, String>();
             Map<Integer, String> mixBasePos_R = new HashMap<Integer, String>();
@@ -77,7 +77,7 @@ public class Tools {
     }
     /** this method is used to assign the value to the primer-noMixedBase according to the information on the
      * FPRimersInfor*/
-    public static void transformMixedBase (ArrayList<FRPrimersInfor> primersInfor){
+    public static void transformMixedBase (ArrayList<Primer> primersInfor){
         for(int i = 0; i < primersInfor.size(); i++){
             if(!primersInfor.get(i).mixedCodePositions_F.isEmpty()){
                 primersInfor.get(i).originalSequence_F_noMixedBase =

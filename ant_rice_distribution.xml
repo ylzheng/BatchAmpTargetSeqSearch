@@ -12,12 +12,16 @@
 
 <project name="apollo" default="compile" basedir=".">
 
-  <property name="src" value="src/java" />
-  <property name="build" value="src/main/java/classfiles" />
+  <property name="projectName" value="BatchAmpTargetSeqSearch" />
+  <property name="src" value="src/main/java" />
+  <property name="build" value="target/classes" />
   <property name="lib" value="jars" />
+  <property name="dist.dir" location="dist" />
+  <property name="dist.lib.dir" location="dist/lib" />
   <property name="data" value="data" />
   <property name="conf" value="conf" />
   <property name="jarfile" value="jars/apollo.jar"/>
+  <property name="main-class" value="apollo.analysis.BatchPrimerPairSubmit" />
 
 
   <!-- The timestamp target writes out a new timestamp to
@@ -32,12 +36,10 @@
   </target>
 
 
-
   <!-- The init target makes sure that the prerequisite directories exist. -->
   <target name="init" depends="timestamp">
     <mkdir dir="${build}" />
   </target>
-
 
 
   <!-- The classpath includes all the jar files in apollo/jars, excluding
@@ -52,41 +54,54 @@
 
   <!-- The compile target runs javac on all the java files, and saves them into        the classfiles directory. -->
   <target name="compile" depends="init">
-    <javac srcdir="${src}" destdir="${build}" debug="yes">
+    <javac srcdir="${src}" destdir="${build}">
       <classpath refid="project.classpath"/>
     </javac>
+  </target>
+
+
+  <!-- Group all dependencies into a big dependency-all.jar -->
+  <target name="copy-dependencies">
+
+    <mkdir dir="${dist.lib.dir}" />
+
+    <jar jarfile="${dist.lib.dir}/dependencies-all.jar">
+      <zipgroupfileset dir="${lib}">
+        <include name="**/*.jar" />
+      </zipgroupfileset>
+    </jar>
+
   </target>
 
 
 
   <!-- The jar target compiles everything, and produces an apollo.jar in
        apollo/jars/apollo.jar.  -->
-  <target name="jar" depends="compile">
-     <copy overwrite="true" file="${conf}/apollo.cfg" tofile="${conf}/apollo.cfg.orig"/>
-     <copy overwrite="true" file="${conf}/apollo-rice.cfg" tofile="${conf}/apollo.cfg"/>
-     <jar destfile="${jarfile}">
-        <fileset dir="${build}"/>
-	<fileset file="${data}/apollosplash.gerry.jpg"/>
-        <fileset file="${data}/timestamp"/>
-        <fileset file="${conf}/apollo.cfg"/>
-        <fileset file="${conf}/transactionXMLTemplate_rice.xml"/>
-        <fileset file="${conf}/log4j.properties"/>
-        <fileset file="${conf}/rice.tiers"/>
-        <fileset file="${conf}/rice.style"/>
-        <fileset file="${conf}/graph.style"/>
-     </jar>
-     <copy overwrite="true" file="${conf}/apollo.cfg.orig" tofile="${conf}/apollo.cfg"/>
+  <target name="jar" depends="compile, copy-dependencies" description="package, output to JAR">
+
+    <mkdir dir="${dist.dir}" />
+    <mkdir dir="${dist.lib.dir}" />
+
+    <jar jarfile="${dist.dir}/${projectName}.jar" basedir="${build}">
+      <manifest>
+        <attribute name="Main-Class" value="${main-class}" />
+      </manifest>
+      <zipfileset src="${dist.lib.dir}/dependencies-all.jar"
+                  excludes="META-INF/*.SF" />
+    </jar>
+
   </target>
 
 
   <!-- The clean target just erases the classes -->
   <target name="clean">
     <delete dir="${build}"/>
+    <delete dir="${dist.dir}" />
   </target>
 
-  <!-- clean and compile everything -->
-  <target name="build-all" depends="clean,compile"/>
+
+  <!-- Default, run this -->
+  <target name="main" depends="clean, compile, jar" />
 
 
-  
 </project>

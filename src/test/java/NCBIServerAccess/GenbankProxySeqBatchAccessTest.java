@@ -1,7 +1,7 @@
 package NCBIServerAccess;
 
 
-import apollo.analysis.FRPrimersInfor;
+import apollo.analysis.Primer;
 import apollo.analysis.LoadPrimerCSV;
 import org.biojava.nbio.core.exceptions.CompoundNotFoundException;
 import org.biojava.nbio.core.sequence.DNASequence;
@@ -19,15 +19,15 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by yzheng on 1/4/16.
  */
-public class GenbankProxySeqBatchAccess {
-    public static org.slf4j.Logger logger = LoggerFactory.getLogger(GenbankProxySeqBatchAccess.class);
+public class GenbankProxySeqBatchAccessTest {
+    public static org.slf4j.Logger logger = LoggerFactory.getLogger(GenbankProxySeqBatchAccessTest.class);
 
-    GenbankProxySeqBatchAccess(String txtFileName, String flag, String outputPath)
+    GenbankProxySeqBatchAccessTest(String txtFileName, String flag, String outputPath)
             throws IOException, CompoundNotFoundException, InterruptedException {
         LoadPrimerCSV ob = new LoadPrimerCSV(txtFileName, flag);
         for(int i = 0; i < ob.primersInfors.size(); i++){
             System.out.println("~~~~ i " + i);
-            FRPrimersInfor tmp = ob.primersInfors.get(i);
+            Primer tmp = ob.primersInfors.get(i);
             String primerName = outputPath + "/" + tmp.primerName_F.trim() + ".fasta";
             getTargetSeq(tmp.genomeID, tmp.startPosinGenome, tmp.endPosinGenome, primerName);
             TimeUnit.SECONDS.sleep(2);
@@ -69,7 +69,7 @@ public class GenbankProxySeqBatchAccess {
     }
 
     public static void main(String[] args) throws InterruptedException, IOException, CompoundNotFoundException {
-        GenbankProxySeqBatchAccess ob = new GenbankProxySeqBatchAccess(args[0], args[1], args[2]);
+        GenbankProxySeqBatchAccessTest ob = new GenbankProxySeqBatchAccessTest(args[0], args[1], args[2]);
     }
 
 }
