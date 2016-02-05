@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Created by yzheng on 12/21/15.
  */
-public class FRPrimersInfor {
+public class Primer {
     public String primerName_F;
     public String primerName_R;
     public String sequencewithIllumina5Tag_F;
@@ -25,9 +25,9 @@ public class FRPrimersInfor {
     public int startPosinGenome = 0;
     public int endPosinGenome = 0;
 
-    public FRPrimersInfor(String primerNameF, String primerNameR, String sequencewithIllumina5TagF,
-                          String sequencewithIllumina5TagR, String originalSequenceF, String originalSequenceR,
-                          String organismNa, int expectedAmpliconSiz ){
+    public Primer(String primerNameF, String primerNameR, String sequencewithIllumina5TagF,
+                  String sequencewithIllumina5TagR, String originalSequenceF, String originalSequenceR,
+                  String organismNa, int expectedAmpliconSiz ){
 
         this.primerName_F = primerNameF;
         this.primerName_R = primerNameR;
@@ -39,11 +39,11 @@ public class FRPrimersInfor {
         this.expectedAmpliconSize = expectedAmpliconSiz;
     }
 
-    public FRPrimersInfor(String primerNameF, String primerNameR, String sequencewithIllumina5TagF,
-                          String sequencewithIllumina5TagR, String originalSequenceF, String originalSequenceR,
-                          String organismNa, int expectedAmpliconSiz, int plusIllumina, int plusIlluminaNextera,
-                          String originalSequence_F_noMixedBase, String originalSequence_R_noMixedBase,
-                          String genomeID, int startPosinGenome, int endPosinGenome) {
+    public Primer(String primerNameF, String primerNameR, String sequencewithIllumina5TagF,
+                  String sequencewithIllumina5TagR, String originalSequenceF, String originalSequenceR,
+                  String organismNa, int expectedAmpliconSiz, int plusIllumina, int plusIlluminaNextera,
+                  String originalSequence_F_noMixedBase, String originalSequence_R_noMixedBase,
+                  String genomeID, int startPosinGenome, int endPosinGenome) {
 
         this.primerName_F = primerNameF;
         this.primerName_R = primerNameR;

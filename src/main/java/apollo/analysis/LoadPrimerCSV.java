@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by yzheng on 12/21/15.
  */
 public class LoadPrimerCSV {
-    public ArrayList<FRPrimersInfor> primersInfors = new ArrayList<FRPrimersInfor>();
+    public ArrayList<Primer> primersInfors = new ArrayList<Primer>();
     String[] content;
 
     public LoadPrimerCSV(String primerCSVFileName) throws IOException {
@@ -34,7 +34,7 @@ public class LoadPrimerCSV {
             String[] rowFElement = new String[0];
             String[] rowRElement = new String[0];
             //System.out.println(" i is " + i);
-            FRPrimersInfor tmpFRPrimersInfor = null;
+            Primer tmpPrimer = null;
             //if(content[i].length() > 60 && i+1 < content.length && !content[i].contains("Sequence with Illumina 5' Tags")){
             if ( i+1 < content.length && !content[i].contains("Sequence with Illumina 5' Tags")){
                 /**col infor: c0 primerName, c1 originalSeq, c2 fPrimer, c3 rPrimer, c4 organism name,c5 expected value */
@@ -43,42 +43,42 @@ public class LoadPrimerCSV {
                 /** Three conditions according to the data, row[3] is empty, row[4] is the organism name */
                 if(rowFElement.length > 5){
                     if(!rowFElement[4].equals("") && !rowFElement[5].equals("")){
-                        tmpFRPrimersInfor = new FRPrimersInfor(rowFElement[0], rowRElement[0], rowFElement[1], rowRElement[1],
+                        tmpPrimer = new Primer(rowFElement[0], rowRElement[0], rowFElement[1], rowRElement[1],
                                 rowFElement[2], rowRElement[2], rowFElement[4], Integer.parseInt(rowFElement[5]));
-                        primersInfors.add(tmpFRPrimersInfor);
+                        primersInfors.add(tmpPrimer);
                     }
                     if(!rowFElement[4].equals("") && rowFElement[5].equals("")){
-                        tmpFRPrimersInfor = new FRPrimersInfor(rowFElement[0], rowRElement[0], rowFElement[1], rowRElement[1],
+                        tmpPrimer = new Primer(rowFElement[0], rowRElement[0], rowFElement[1], rowRElement[1],
                                 rowFElement[2], rowRElement[2], rowFElement[4], Integer.parseInt("0"));
-                        primersInfors.add(tmpFRPrimersInfor);
+                        primersInfors.add(tmpPrimer);
                     }
                     if(rowFElement[4].equals("") && !rowFElement[5].equals("")){
-                        tmpFRPrimersInfor = new FRPrimersInfor(rowFElement[0], rowRElement[0], rowFElement[1], rowRElement[1],
+                        tmpPrimer = new Primer(rowFElement[0], rowRElement[0], rowFElement[1], rowRElement[1],
                                 rowFElement[2], rowRElement[2], "NoName", Integer.parseInt(rowFElement[5]));
-                        primersInfors.add(tmpFRPrimersInfor);
+                        primersInfors.add(tmpPrimer);
                     }
                     if(rowFElement[4].equals("") && rowFElement[5].equals("")){
-                        tmpFRPrimersInfor = new FRPrimersInfor(rowFElement[0], rowRElement[0], rowFElement[1], rowRElement[1],
+                        tmpPrimer = new Primer(rowFElement[0], rowRElement[0], rowFElement[1], rowRElement[1],
                                 rowFElement[2], rowRElement[2], "NoName", Integer.parseInt("0"));
-                        primersInfors.add(tmpFRPrimersInfor);
+                        primersInfors.add(tmpPrimer);
                     }
                 }
                 if (rowFElement.length == 5){
                     if(!rowFElement[4].equals("")){
-                        tmpFRPrimersInfor = new FRPrimersInfor(rowFElement[0], rowRElement[0], rowFElement[1], rowRElement[1],
+                        tmpPrimer = new Primer(rowFElement[0], rowRElement[0], rowFElement[1], rowRElement[1],
                                 rowFElement[2], rowRElement[2], rowFElement[4], Integer.parseInt("0"));
-                        primersInfors.add(tmpFRPrimersInfor);
+                        primersInfors.add(tmpPrimer);
                     }
                     if(rowFElement[4].equals("")){
-                        tmpFRPrimersInfor = new FRPrimersInfor(rowFElement[0], rowRElement[0], rowFElement[1], rowRElement[1],
+                        tmpPrimer = new Primer(rowFElement[0], rowRElement[0], rowFElement[1], rowRElement[1],
                                 rowFElement[2], rowRElement[2], "NoName", Integer.parseInt("0"));
-                        primersInfors.add(tmpFRPrimersInfor);
+                        primersInfors.add(tmpPrimer);
                     }
                 }
                 if(rowFElement.length < 5){
-                    tmpFRPrimersInfor = new FRPrimersInfor(rowFElement[0], rowRElement[0], rowFElement[1], rowRElement[1],
+                    tmpPrimer = new Primer(rowFElement[0], rowRElement[0], rowFElement[1], rowRElement[1],
                             rowFElement[2], rowRElement[2], "NoName", Integer.parseInt("0"));
-                    primersInfors.add(tmpFRPrimersInfor);
+                    primersInfors.add(tmpPrimer);
                 }
             }
 
@@ -109,23 +109,23 @@ public class LoadPrimerCSV {
                         rowFElement = content[i].split(",");
                         rowRElement = content[i+1].split(",");
                     }
-                    FRPrimersInfor tmpFRPrimersInfor = null;
+                    Primer tmpPrimer = null;
                     /** 0: String primerNameF, 1: String primerNameR, 2: String sequencewithIllumina5TagF,
                      3: String sequencewithIllumina5TagR, 4: String originalSequenceF, 5: String originalSequenceR,
                      6: String organismNa, 7: int expectedAmpliconSiz, 8: int plusIllumina, 9: int plusIlluminaNextera,
                      10: String originalSequence_F_noMixedBase, 11: String originalSequence_R_noMixedBase,
                      12: String genomeID, 13: int startPosinGenome, 14: int endPosinGenome*/
-                    tmpFRPrimersInfor = new FRPrimersInfor(rowFElement[0], rowRElement[0], rowFElement[1], rowRElement[1],
+                    tmpPrimer = new Primer(rowFElement[0], rowRElement[0], rowFElement[1], rowRElement[1],
                             rowFElement[2], rowRElement[2], rowFElement[4], Integer.parseInt(rowFElement[4]),
                             Integer.parseInt(rowFElement[5]), Integer.parseInt(rowFElement[6]), rowFElement[7],
                             rowRElement[4], rowFElement[10],
                             Integer.parseInt(rowFElement[8]), Integer.parseInt(rowFElement[9]));
-                    primersInfors.add(tmpFRPrimersInfor);
+                    primersInfors.add(tmpPrimer);
                 }
             }
         }
     }
-    public void addTransformedSeq2FRPrimer(ArrayList<FRPrimersInfor> primersInfor ){
+    public void addTransformedSeq2FRPrimer(ArrayList<Primer> primersInfor ){
         Tools.findMixedBasePrimerSeqPos(primersInfor);
         Tools.transformMixedBase(primersInfor);
         System.out.println("finish convert the mixedbase to corresponding base");

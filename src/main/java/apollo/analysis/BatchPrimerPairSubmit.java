@@ -11,9 +11,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by yzheng on 12/21/15.
  */
-public class BatchPrimerPairSubmits {
-    ArrayList<FRPrimersInfor> primersInfors_Result = new ArrayList<FRPrimersInfor>();
-    public BatchPrimerPairSubmits(String cvsFileName, String path) throws IOException {
+public class BatchPrimerPairSubmit {
+    ArrayList<Primer> primersInfors_Result = new ArrayList<Primer>();
+    public BatchPrimerPairSubmit(String cvsFileName, String path) throws IOException {
         LoadPrimerCSV ob = new LoadPrimerCSV(cvsFileName);
         ob.addTransformedSeq2FRPrimer(ob.primersInfors);/**transform the mixedbase to the base*/
         primersInfors_Result = ob.primersInfors;
@@ -90,7 +90,7 @@ public class BatchPrimerPairSubmits {
         return b;
     }
 
-    public void printOutResult(ArrayList<FRPrimersInfor> primerInforResult, String outputFile) throws IOException{
+    public void printOutResult(ArrayList<Primer> primerInforResult, String outputFile) throws IOException{
         FileWriter outputStream = null;
         try{
             outputStream = new FileWriter(new File(outputFile));
@@ -98,7 +98,7 @@ public class BatchPrimerPairSubmits {
             e.printStackTrace();
         }
         assert outputStream != null;
-        for (FRPrimersInfor eachElement : primerInforResult){
+        for (Primer eachElement : primerInforResult){
             if (eachElement.expectedAmpliconSize > 2 ){
                 outputStream.write(
                                 eachElement.primerName_F + ","
@@ -142,7 +142,7 @@ public class BatchPrimerPairSubmits {
     //public void printOut
 
     public static void main(String[] args) throws Exception {
-        BatchPrimerPairSubmits ob1 = new BatchPrimerPairSubmits(args[0], args[1]);
+        BatchPrimerPairSubmit ob1 = new BatchPrimerPairSubmit(args[0], args[1]);
         ob1.printOutResult(ob1.primersInfors_Result, args[2]);
         //int a = ob1.findMinMaxPosValue(6624, 6644, 6727, 6711);
         //System.out.println("min and max is" + String.valueOf(a));
